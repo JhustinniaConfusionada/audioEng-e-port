@@ -12,13 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    const footerCard = document.querySelector('.footer-card');
-    if (footerCard) {
-        footerCard.addEventListener('click', () => {
-            footerCard.classList.toggle('active-card');
-        });
-    }
-
     const allVideos = () => Array.from(document.querySelectorAll('.project-video'));
 
     const stopAllVideos = () => {
