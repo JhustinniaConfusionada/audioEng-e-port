@@ -19,9 +19,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    document.querySelectorAll('.project-item').forEach((item) => {
-        const video = item.querySelector('.project-video');
-        const toggleButton = item.querySelector('.video-toggle');
+    const allVideos = () => Array.from(document.querySelectorAll('.project-video'));
+
+    const stopAllVideos = () => {
+        allVideos().forEach((video) => {
+            if (!video.paused) {
+                video.pause();
+                video.currentTime = 0;
+            }
+        });
+    };
+
+    const setupVideoControl = (container) => {
+        const video = container.querySelector('.project-video');
+        const toggleButton = container.querySelector('.video-toggle');
 
         if (!video || !toggleButton) return;
 
@@ -31,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         toggleButton.addEventListener('click', () => {
             if (video.paused) {
+                stopAllVideos();
                 video.muted = false;
                 video.volume = 1;
                 video.play().catch(() => {});
@@ -45,5 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
         video.addEventListener('pause', updateLabel);
         video.addEventListener('ended', updateLabel);
         updateLabel();
-    });
+    };
+
+    document.querySelectorAll('.project-item').forEach(setupVideoControl);
+    document.querySelectorAll('.footer-card').forEach(setupVideoControl);
 });
